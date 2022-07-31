@@ -26,5 +26,8 @@ class TaskForm(forms.Form):
 # 3. login --> login
 # 4. redirect be safhe badi
 
-# 1. logout
+# 1. logout logout()
 # 2. session id hazf mishe 
+
+# reset password --> 4 --> email migirim --> safhe success --> form --> success
+# change password --> 2 --> form old pass new pass --> success
