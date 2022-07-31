@@ -12,10 +12,19 @@ class TaskModel(models.Model):
 	create = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 
+
 	def __str__(self):
 		return f'{self.title} - {self.status}'
 
 
+	def next(self):
+		if self.status == 'td':
+			self.status = 'ip'
+		elif self.status == 'ip':
+			self.status = 'f'
+
+		self.save()		
+
+
 	class Meta:
 		ordering = ['-create', ]
- 

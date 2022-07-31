@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from todo_app.models import TaskModel
+from todo_app.forms import TaskForm
 
 
 def task_list(request, status=None):
@@ -23,12 +24,31 @@ def task_delete(request, task_id):
 
 def task_create(request):
 	if request.method == 'POST':
-		task_name = request.POST.get('task_name')
-		TaskModel.objects.create(title=task_name)
-		return redirect('list')
+		form = TaskForm(request.POST)
 
-	return render(request, 'todo_app/task_create.html')
+		if form.is_valid():
+			form.save()
+			return redirect('list')
 
-# task-inprocess
-# task-done
-# task-edit
+	form = TaskForm()
+	return render(request, 'todo_app/task_create.html', {'form': form})
+
+
+def task_update(request, task_id):
+	task_obj = get_object_or_404(TaskModel, id=task_id)
+
+	if request.method == 'POST':
+		form = TaskForm(request.POST, instance=task_obj)
+		if form.is_valid():
+			form.save()
+			return redirect('list')
+
+	form = TaskForm(instance=task_obj)
+	return render(request, 'todo_app/task_create.html', {'form': form, 'obj': task_obj})
+
+
+def task_next(request, task_id):
+	task_obj = get_object_or_404(TaskModel, id=task_id)
+	task_obj.next()
+	return redirect(request.META.get('HTTP_REFERER'))
+

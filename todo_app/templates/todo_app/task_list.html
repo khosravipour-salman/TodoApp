@@ -38,6 +38,8 @@ tr:nth-child(even) {
     <th>Status</th>
     <th>create</th>
     <th>Action</th>
+    <th style="text-align: center;">-</th>
+
   </tr>
   {% for task_obj in obj_list %}
   		
@@ -50,6 +52,13 @@ tr:nth-child(even) {
           <button>delete</button>
         </a>
       </td>
+
+      <td>
+        <a href="{% url 'next' task_obj.id %}">
+          <button>next</button>
+        </a>
+      </td>
+
 	  </tr>
 
   {% endfor %}
